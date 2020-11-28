@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# dispatches pinentry based on different use cases
+# for example: when the terminal is unavailable, use a GUI pinentry
+
+# $PINENTRY_USER_DATA:
+#       = curses/emacs/gnome3/gtk-2/qt/tty:
+#           uses /usr/bin/pinentry-"$PINENTRY_USER_DATA"
+#       = *:
+#           uses /usr/bin/pinentry
+_CHOICE="$PINENTRY_USER_DATA"
+export PINENTRY_USER_DATA=
+
+BACKUP_EXEC=pinentry
+PREFER_EXEC="$BACKUP_EXEC-$_CHOICE"
+
+# use the executable if exists
+    type -P "$PREFER_EXEC" &&
+    exec "/usr/bin/$PREFER_EXEC" "$@"
+
+# otherwise use the default executable
+exec "/usr/bin/$BACKUP_EXEC" "$@"
+
