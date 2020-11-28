@@ -14,7 +14,7 @@ BACKUP_EXEC=pinentry
 PREFER_EXEC="$BACKUP_EXEC-$_CHOICE"
 
 # use the executable if exists
-    type -P "$PREFER_EXEC" &&
+type -P "$PREFER_EXEC" &&
     exec "/usr/bin/$PREFER_EXEC" "$@"
 
 # otherwise use the default executable
